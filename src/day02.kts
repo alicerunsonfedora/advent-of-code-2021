@@ -1,8 +1,5 @@
-/** An enum that represents the different movement commands. */
-enum class Movement { FORWARD, DOWN, UP, UNKNOWN }
-
 /** A data class that represents a movement command with a direction and an amount. */
-data class MovementCommand(val direction: Movement, val amount: Int)
+data class MovementCommand(val direction: String, val amount: Int)
 
 fun getInputData(): List<String> = getInputText(2).toList()
 
@@ -16,52 +13,62 @@ fun getTestData(): List<String> = """
     """.trimIndent()
     .split("\n")
 
-/** Converts a string into an appropriate movement command. */
-fun String.toMovementCommand(): Movement {
-    return when(this) {
-        "forward" -> Movement.FORWARD
-        "up" -> Movement.UP
-        "down" -> Movement.DOWN
-        else -> Movement.UNKNOWN
-    }
-}
 
 /** Returns a list of movement commands by parsing the list of strings for valid commands. */
 fun parseCommands(commandList: List<String>): List<MovementCommand> = commandList.map { source ->
     val args = source.split(" ")
-    MovementCommand(args[0].toMovementCommand(), args[1].toInt())
+    MovementCommand(args[0], args[1].toInt())
 }
 
 /** Returns a pair of the overall breadth (horizontal movement) and depth by tracking the directions. */
 fun track(commands: List<MovementCommand>): Pair<Int, Int> {
-    var breadth = 0 ; var depth = 0
-    commands.forEach { command ->
-        when (command.direction) {
-            Movement.FORWARD -> breadth += command.amount
-            Movement.UP -> depth -= command.amount
-            Movement.DOWN -> depth += command.amount
-            else -> {}
-        }
-    }
+    val breadth = commands.filter { it.direction == "forward" }.sumOf { it.amount }
+
+    val depthPositive = commands.filter { it.direction == "down" }.sumOf { it.amount }
+    val depthNegative = commands.filter { it.direction == "up" }.sumOf { it.amount }
+    val netDepth = depthPositive - depthNegative
+
+//  var breadth = 0; var depth = 0
+//    commands.forEach { command ->
+//        when (command.direction) {
+//            "forward" -> breadth += command.amount
+//            "up" -> depth -= command.amount
+//            "down" -> depth += command.amount
+//            else -> {}
+//        }
+//    }
+
     println("Tracking of ${commands.count()} commands complete.")
-    println("Breadth: $breadth\tDepth: $depth")
-    return Pair(breadth, depth)
+    println("Breadth: $breadth\tDepth: $netDepth")
+    return Pair(breadth, netDepth)
 }
 
 /** Returns a triple of the overall breadth (horizontal movement), depth, and aim by tracking the directions. */
 fun trackWithAim(commands: List<MovementCommand>): Triple<Int, Int, Int> {
-    var breadth = 0 ; var depth = 0 ; var aim = 0
+    val breadth = commands.filter { it.direction == "forward" }.sumOf { it.amount }
+    var aim = 0; var depth = 0
     commands.forEach { command ->
         when (command.direction) {
-            Movement.FORWARD -> {
-                breadth += command.amount
-                depth += (aim * command.amount)
-            }
-            Movement.UP -> aim -= command.amount
-            Movement.DOWN -> aim += command.amount
+            "forward" -> depth += aim * command.amount
+            "up" -> aim -= command.amount
+            "down" -> aim += command.amount
             else -> {}
         }
     }
+
+//    var breadth = 0; var depth = 0 ; var aim = 0
+//    commands.forEach { command ->
+//        when (command.direction) {
+//            "forward" -> {
+//                breadth += command.amount
+//                depth += (aim * command.amount)
+//            }
+//            "up" -> aim -= command.amount
+//            "down" -> aim += command.amount
+//            else -> {}
+//        }
+//    }
+
     println("Corrected tracking of ${commands.count()} commands complete.")
     println("Breadth: $breadth\tDepth: $depth\tAim: $aim")
     return Triple(breadth, depth, aim)
