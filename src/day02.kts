@@ -1,5 +1,3 @@
-import java.io.File
-
 enum class Movement { FORWARD, DOWN, UP, UNKNOWN }
 
 data class MovementCommand(val direction: Movement, val amount: Int)
