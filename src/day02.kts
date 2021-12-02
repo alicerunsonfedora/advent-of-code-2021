@@ -24,9 +24,13 @@ fun parseCommands(commandList: List<String>): List<MovementCommand> = commandLis
 fun track(commands: List<MovementCommand>): Pair<Int, Int> {
     val breadth = commands.filter { it.direction == "forward" }.sumOf { it.amount }
 
-    val depthPositive = commands.filter { it.direction == "down" }.sumOf { it.amount }
-    val depthNegative = commands.filter { it.direction == "up" }.sumOf { it.amount }
-    val netDepth = depthPositive - depthNegative
+    val depth = commands.fold(0) { accumulated, command ->
+        when (command.direction) {
+            "up" -> accumulated - command.amount
+            "down" -> accumulated + command.amount
+            else -> accumulated
+        }
+    }
 
 //  var breadth = 0; var depth = 0
 //    commands.forEach { command ->
@@ -39,14 +43,15 @@ fun track(commands: List<MovementCommand>): Pair<Int, Int> {
 //    }
 
     println("Tracking of ${commands.count()} commands complete.")
-    println("Breadth: $breadth\tDepth: $netDepth")
-    return Pair(breadth, netDepth)
+    println("Breadth: $breadth\tDepth: $depth")
+    return Pair(breadth, depth)
 }
 
 /** Returns a triple of the overall breadth (horizontal movement), depth, and aim by tracking the directions. */
 fun trackWithAim(commands: List<MovementCommand>): Triple<Int, Int, Int> {
     val breadth = commands.filter { it.direction == "forward" }.sumOf { it.amount }
     var aim = 0; var depth = 0
+
     commands.forEach { command ->
         when (command.direction) {
             "forward" -> depth += aim * command.amount
