@@ -1,4 +1,4 @@
-fun getInputData(): String = getInputText(99)
+fun getInputData(): String = getInputText(${Challenge})
 
 fun getTestData(): String = """
     
