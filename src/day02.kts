@@ -1,5 +1,7 @@
+/** An enum that represents the different movement commands. */
 enum class Movement { FORWARD, DOWN, UP, UNKNOWN }
 
+/** A data class that represents a movement command with a direction and an amount. */
 data class MovementCommand(val direction: Movement, val amount: Int)
 
 fun getInputData(): List<String> = getInputText(2).toList()
@@ -14,6 +16,7 @@ fun getTestData(): List<String> = """
     """.trimIndent()
     .split("\n")
 
+/** Converts a string into an appropriate movement command. */
 fun String.toMovementCommand(): Movement {
     return when(this) {
         "forward" -> Movement.FORWARD
@@ -23,11 +26,13 @@ fun String.toMovementCommand(): Movement {
     }
 }
 
+/** Returns a list of movement commands by parsing the list of strings for valid commands. */
 fun parseCommands(commandList: List<String>): List<MovementCommand> = commandList.map { source ->
     val args = source.split(" ")
     MovementCommand(args[0].toMovementCommand(), args[1].toInt())
 }
 
+/** Returns a pair of the overall breadth (horizontal movement) and depth by tracking the directions. */
 fun track(commands: List<MovementCommand>): Pair<Int, Int> {
     var breadth = 0 ; var depth = 0
     commands.forEach { command ->
@@ -43,6 +48,7 @@ fun track(commands: List<MovementCommand>): Pair<Int, Int> {
     return Pair(breadth, depth)
 }
 
+/** Returns a triple of the overall breadth (horizontal movement), depth, and aim by tracking the directions. */
 fun trackWithAim(commands: List<MovementCommand>): Triple<Int, Int, Int> {
     var breadth = 0 ; var depth = 0 ; var aim = 0
     commands.forEach { command ->
@@ -61,11 +67,13 @@ fun trackWithAim(commands: List<MovementCommand>): Triple<Int, Int, Int> {
     return Triple(breadth, depth, aim)
 }
 
+/** Part One */
 fun partOne(inputData: List<String>) {
     val (breadth, depth) = track(parseCommands(inputData))
     println(breadth * depth)
 }
 
+/** Part Two */
 fun partTwo(inputData: List<String>) {
     val (breadth, depth, _) = trackWithAim(parseCommands(inputData))
     println(breadth * depth)

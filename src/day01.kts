@@ -16,6 +16,7 @@ fun getTestData(): List<Int> = """
     .map(String::toInt)
 
 
+/** Returns a pair of integers that represents the number of times the reading increases and decreases.*/
 fun List<Int>.getDeltaChanges(): Pair<Int, Int> {
     var increased = 0; var decreased = 0
     var previousValue = first()
@@ -32,13 +33,14 @@ fun List<Int>.getDeltaChanges(): Pair<Int, Int> {
     return Pair(increased, decreased)
 }
 
-
+/** Part One */
 fun partOne(measurements: List<Int>): Int {
     val increased = measurements.getDeltaChanges().first
     println("Number of total increases from previous measurements: $increased")
     return increased
 }
 
+/** Part Two */
 fun partTwo(measurements: List<Int>): Int {
     var slidingWindowStart = 0
     var slidingWindowEnd = 2
