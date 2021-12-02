@@ -1,11 +1,4 @@
-import java.io.File
-
-
-fun getInputData(): List<Int> = File("assets/day01.txt")
-    .readText()
-    .trim()
-    .split("\n")
-    .map { it.toInt() }
+fun getInputData(): List<Int> = getInputText(1).toList().map { it.toInt() }
 
 fun getTestData(): List<Int> = """
         199
@@ -66,8 +59,14 @@ fun partTwo(measurements: List<Int>): Int {
 fun test() {
     val testInput = getTestData()
     println("=== Test Suite ===")
-    assert(partOne(testInput) == 7)
-    assert(partTwo(testInput) == 5)
+
+    assertTestCase("Part One") {
+        partOne(testInput) == 7
+    }
+
+    assertTestCase("Part Two") {
+        partTwo(testInput) == 5
+    }
 }
 
 fun main() {

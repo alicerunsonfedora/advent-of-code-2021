@@ -1,6 +1,4 @@
-import java.io.File
-
-fun getInputData(): String = File("assets/dayXX.txt").readText()
+fun getInputData(): String = getInputText(99)
 
 fun getTestData(): String = """
     
@@ -9,7 +7,16 @@ fun getTestData(): String = """
 fun test() {
     val testInput = getTestData()
     println("=== Test Suite ===")
-    println("All test cases passed.\n\n")
+
+    assertTestCase("Part One") {
+        // FIXME: Replace 'true' with the condition(s) outlined in the challenge!
+        true
+    }
+
+    assertTestCase("Part Two") {
+        // FIXME: Replace 'true' with the condition(s) outlined in the challenge!
+        true
+    }
 }
 
 fun partOne() {
