@@ -1,16 +1,13 @@
 import java.io.File
 
-fun getInputData(): List<Int> {
-    with (File("assets/day01.txt")) {
-        return this.readText()
-            .trim()
-            .split("\n")
-            .map(String::toInt)
-    }
-}
 
-fun getTestData(): List<Int> {
-    return """
+fun getInputData(): List<Int> = File("assets/day01.txt")
+    .readText()
+    .trim()
+    .split("\n")
+    .map { it.toInt() }
+
+fun getTestData(): List<Int> = """
         199
         200
         208
@@ -22,9 +19,8 @@ fun getTestData(): List<Int> {
         260
         263
     """.trimIndent()
-        .split("\n")
-        .map(String::toInt)
-}
+    .split("\n")
+    .map(String::toInt)
 
 
 fun List<Int>.getDeltaChanges(): Pair<Int, Int> {
