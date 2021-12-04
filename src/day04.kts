@@ -53,7 +53,7 @@ class Board(layout: String, val id: Any = "aBoard") {
         }
     }
 
-    /** Whether or not the bingo card is in a winning state. */
+    /** Whether the bingo card is in a winning state. */
     val isWinning: Boolean
         get() = markedRows.contains(5) || markedCols.contains(5)
 
